@@ -1,0 +1,17 @@
+/* .border-red {
+    border: 1px solid red;
+} */
+
+.my-spiner {
+    right: 100px;
+}
+
+.loader {
+    opacity: 1;
+    z-index: 2;
+}
+
+.loader-opacity-0 {
+    opacity: 0;
+    z-index: 2;
+}
