@@ -1,13 +1,8 @@
 
 const btnSearch = document.getElementById('btnSearchID')
 const inputSearch = document.getElementById('inputID')
-// const resultList = document.getElementById('result-list')
-
-// let showResult = () => {
-// clearResult()
 
 //{symbol: "ASRVP", name: "Ameriserv Financial Capital Trust I PFD A GTD 8.45", currency: "USD", stockExchange: "NasdaqGM", exchangeShortName: "NASDAQ"}
-// index.js:27 
 
 function showSpinner(loaderParameter) {
     loaderParameter.classList.remove('loader-opacity-0');
@@ -18,7 +13,7 @@ function removeSpiner(loaderParameter) {
     loaderParameter.classList.add('loader-opacity-0');
 }
 resultList = document.getElementById('result-list');
-let stockName = inputSearch.value;
+let stockName;
 
 function showTheList(dataParam) { // show all results (from server) on the page
     for (let i = 0; i < dataParam.length; i++) {
@@ -32,6 +27,7 @@ function showTheList(dataParam) { // show all results (from server) on the page
 
 async function getDataResult() { // ----------- Get data from API ----
     let loader = document.getElementById('loaderID');
+    stockName = inputSearch.value;
     showSpinner(loader)
     try {
         const res = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${stockName}&limit=10&exchange=NASDAQ`)
@@ -53,6 +49,6 @@ async function getDataResult() { // ----------- Get data from API ----
 }
 // getDataResult()
 btnSearch.addEventListener('click', function () {
-    resultList.innerHTML = ""; //clear the list on the page
+    // resultList.innerHTML = ""; //clear the list on the page
     getDataResult()
 })
