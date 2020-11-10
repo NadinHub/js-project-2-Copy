@@ -1,13 +1,8 @@
 
 const btnSearch = document.getElementById('btnSearchID')
 const inputSearch = document.getElementById('inputID')
-// const resultList = document.getElementById('result-list')
-
-// let showResult = () => {
-// clearResult()
 
 //{symbol: "ASRVP", name: "Ameriserv Financial Capital Trust I PFD A GTD 8.45", currency: "USD", stockExchange: "NasdaqGM", exchangeShortName: "NASDAQ"}
-// index.js:27 
 
 function showSpinner(loaderParameter) {
     loaderParameter.classList.remove('loader-opacity-0');
@@ -19,8 +14,6 @@ function removeSpiner(loaderParameter) {
 }
 resultList = document.getElementById('result-list');
 let stockName;
-// https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/profile/${dataParam[i].symbol}
-// /company.html?symbol=${dataParam[i].symbol}
 
 function showTheList(dataParam) { // show all results (from server) on the page
     for (let i = 0; i < dataParam.length; i++) {
