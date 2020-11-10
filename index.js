@@ -18,7 +18,9 @@ function removeSpiner(loaderParameter) {
     loaderParameter.classList.add('loader-opacity-0');
 }
 resultList = document.getElementById('result-list');
-let stockName = inputSearch.value;
+let stockName;
+// https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/profile/${dataParam[i].symbol}
+// /company.html?symbol=${dataParam[i].symbol}
 
 function showTheList(dataParam) { // show all results (from server) on the page
     for (let i = 0; i < dataParam.length; i++) {
@@ -26,12 +28,13 @@ function showTheList(dataParam) { // show all results (from server) on the page
         newItem.classList.add('list-group-item', 'pb-4', 'pl-0');
         resultList.appendChild(newItem);
         // let myDate = new Date(dataParam[i].createdDate); //transform dates
-        newItem.innerHTML = `<a href="https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/profile/${dataParam[i].symbol}"><b>${dataParam[i].name}</b> (${dataParam[i].symbol})</a>  <small class="text-secondary">- ${dataParam[i].exchangeShortName}</small> <br> <small class="text-secondary">Currency: ${dataParam[i].currency}. StockExchange: ${dataParam[i].stockExchange}.</small>`;
+        newItem.innerHTML = `<a href="/company.html?symbol=${dataParam[i].symbol}"><b>${dataParam[i].name}</b> (${dataParam[i].symbol})</a>  <small class="text-secondary">- ${dataParam[i].exchangeShortName}</small> <br> <small class="text-secondary">Currency: ${dataParam[i].currency}. StockExchange: ${dataParam[i].stockExchange}.</small>`;
     }
 }
 
 async function getDataResult() { // ----------- Get data from API ----
     let loader = document.getElementById('loaderID');
+    stockName = inputSearch.value;
     showSpinner(loader)
     try {
         const res = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${stockName}&limit=10&exchange=NASDAQ`)
@@ -53,6 +56,6 @@ async function getDataResult() { // ----------- Get data from API ----
 }
 // getDataResult()
 btnSearch.addEventListener('click', function () {
-    resultList.innerHTML = ""; //clear the list on the page
+    // resultList.innerHTML = ""; //clear the list on the page
     getDataResult()
 })
