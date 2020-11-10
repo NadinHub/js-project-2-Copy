@@ -21,7 +21,7 @@ function showTheList(dataParam) { // show all results (from server) on the page
         newItem.classList.add('list-group-item', 'pb-4', 'pl-0');
         resultList.appendChild(newItem);
         // let myDate = new Date(dataParam[i].createdDate); //transform dates
-        newItem.innerHTML = `<a href="https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/profile/${dataParam[i].symbol}"><b>${dataParam[i].name}</b> (${dataParam[i].symbol})</a>  <small class="text-secondary">- ${dataParam[i].exchangeShortName}</small> <br> <small class="text-secondary">Currency: ${dataParam[i].currency}. StockExchange: ${dataParam[i].stockExchange}.</small>`;
+        newItem.innerHTML = `<a href="/company.html?symbol=${dataParam[i].symbol}"><b>${dataParam[i].name}</b> (${dataParam[i].symbol})</a>  <small class="text-secondary">- ${dataParam[i].exchangeShortName}</small> <br> <small class="text-secondary">Currency: ${dataParam[i].currency}. StockExchange: ${dataParam[i].stockExchange}.</small>`;
     }
 }
 
