@@ -1,4 +1,4 @@
-// Assuming "?post=1234&action=edit"
+
 function showSpinner(loaderParameter) {
     loaderParameter.classList.remove('loader-opacity-0');
     loaderParameter.classList.add('loader2');
@@ -21,9 +21,8 @@ async function getDataResult() {
         if (res.ok) {
             data = await res.json();
             console.log(data[0]);
-            // showTheList(data); // show all results (from server)   
-        } else {console.log("Not Successful")}
-    } catch (error) {console.log('error!');}
+        } else { console.log("Not Successful") }
+    } catch (error) { console.log('error!'); }
 }
 
 showDataResult();
@@ -58,14 +57,6 @@ async function getHistory() { // ----------- Get History ----
                 // console.log(historicalData[i]);
 
             }
-            // removeSpiner(loader);
-            // showTheList(data); // show all results (from server)   
-            // the company image, name, description and link 
-            // companyNameFromURL.innerHTML = `${urlParams.get('symbol')} <br> <img src="${data[0].image}"></img><br> ${data[0].companyName}<br> ${data[0].description}<br>${data[0].price}<br>`;
-            // history.innerHTML = `${data.historical}`;
-            // if (changes.value < 0)
-            //     changes.classList.add('list-group-item', 'text-danger', 'pb-4', 'pl-0');
-            // else changes.classList.add('list-group-item', 'text-success', 'pb-4', 'pl-0');
         } else { console.log("Not Successful") }
     } catch (error) { console.log('error!'); }
 }
