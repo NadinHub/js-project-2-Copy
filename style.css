@@ -22,3 +22,8 @@
     opacity: 0;
     z-index: 2;
 }
+
+.img-icon {
+    width: 50px;
+    height: auto;
+}
