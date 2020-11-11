@@ -50,7 +50,7 @@ async function getHistory() { // ----------- Get History ----
         const result = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/historical-price-full/${urlParams.get('symbol')}?serietype=line`)
         if (result.ok) {
             let data = await result.json();
-            let historicalData = await data.historical;
+            let historicalData = await data.historical.reverse();
             for (let i = 0; i < historicalData.length; i++) {
                 xlabels.push(historicalData[i].date);
                 ytemps.push(historicalData[i].close);
