@@ -2,7 +2,7 @@
 const btnSearch = document.getElementById('btnSearchID');
 const inputSearch = document.getElementById('inputID');
 const emptybox = document.getElementById('emptybox');
-resultList = document.getElementById('result-list');
+const resultList = document.getElementById('result-list');
 
 //{symbol: "ASRVP", name: "Ameriserv Financial Capital Trust I PFD A GTD 8.45", currency: "USD", stockExchange: "NasdaqGM", exchangeShortName: "NASDAQ"}
 
@@ -14,10 +14,10 @@ function removeSpiner(loaderParameter) {
     loaderParameter.classList.remove('loader');
     loaderParameter.classList.add('loader-opacity-0');
 }
-let stockName;
+// let stockName;
 
 
-function showTheList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) { 
+function showTheList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) {
     // show all results (from server) on the page
     for (let i = 0; i < dataParam.length; i++) {
         let newItem = document.createElement('li');
@@ -45,28 +45,44 @@ function changeColor(arrayOfChanges) {
         if (arrayOfChanges[i] < 0) {
             priceChanges[i].classList.add('text-danger');
         }
-        else { priceChanges[i].classList.add('text-success') };
+        else { priceChanges[i].classList.add('text-success') }
     }
 }
 
-async function getDataResult() { // ----------- Get searchData from API ----
+// ----------- Get searchData from API. Use function Expresion and arrow function ----
+const getDataResult = async searchText => {
+console.log("getDataResult invoked")
     let loader = document.getElementById('loaderID');
-    stockName = inputSearch.value;
+    // stockName = inputSearch.value;
     showSpinner(loader)
     try {
-        const res = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${stockName}&limit=10&exchange=NASDAQ`)
+        const res = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${inputSearch.value}&limit=10&exchange=NASDAQ`)
         if (res.ok) {
-            let searchData = await res.json()
-            await getDataResult2(searchData)
+            const searchData = await res.json();
+            console.log(searchData);
+            //currency: "USD"
+            // exchangeShortName: "NASDAQ"
+            // name: "Atlas Air Worldwide Holdings Inc"
+            // stockExchange: "NasdaqGS"
+            // symbol: "AAWW"
+            // ------ Filtering our input and return the result with matches ------ filter loop threw array and return array based on a condition
+            // let matches = searchData.filter(company => {
+            //     const regex = new RegExp(`^${searchText}`, 'gi');
+            //     return company.name.match(regex) || company.symbol.match(regex);
+            // });
+            // console.log(matches);
+            await getDataResult2(searchData);
             removeSpiner(loader);
         } else {
-            console.log("Not Successful")
+            console.log("Not Successful");
         }
     } catch (error) {
         console.log('error!');
     }
 }
+
 async function getDataResult2(searchData) {
+
     arrayOfImages = [];
     arrayOfChanges = [];
     arrayOfSymbols = [];
@@ -88,13 +104,12 @@ async function getDataResult2(searchData) {
             let price = await companyData[0].price;
             arrayOfPrice.push(price);
         }
-        // show all results (from server)
-        showTheList(searchData, arrayOfImages, arrayOfChanges, arrayOfPrice); 
+        // Invoking functions which should be invoked afer we get data. 
+        // They shows all results, using data recieved from server.
+        showTheList(searchData, arrayOfImages, arrayOfChanges, arrayOfPrice);
         changeColor(arrayOfChanges);
-
     } catch (error) { console.log('error!'); }
-}
-btnSearch.addEventListener('click', function () {
-    getDataResult()
 
-})
+}
+
+btnSearch.addEventListener('click', () => getDataResult(inputSearch.value));
