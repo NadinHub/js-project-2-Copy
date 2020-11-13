@@ -23,25 +23,29 @@ function showTheList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) {
         let newItem = document.createElement('li');
         newItem.classList.add('list-group-item', 'pb-4', 'pl-0');
         resultList.appendChild(newItem);
-        newItem.innerHTML = `<img class="img-icon px-2" src="${arrayOfImages[i]}">
+        newItem.innerHTML = `<div class="stock-list d-flex">
+        <img class="img-icon px-2" src="${arrayOfImages[i]}">
         </img>
+        <div>
         <a href="/company.html?symbol=${dataParam[i].symbol}"><b>${dataParam[i].name}</b> (${dataParam[i].symbol})</a>
         <span> ${arrayOfPrice[i]} $ </span>
-        <span class="main-price p-2"> (${arrayOfChanges[i]}%) </span>
+        <span class="price-changes" p-2"> (${arrayOfChanges[i]}%) </span>
         <small class="text-secondary">- ${dataParam[i].exchangeShortName}</small> <br> 
-        <small class="text-secondary">Currency: ${dataParam[i].currency}. StockExchange: ${dataParam[i].stockExchange}.</small>`;
+        <small class="text-secondary">Currency: ${dataParam[i].currency}. StockExchange: ${dataParam[i].stockExchange}.</small>
+        </div>
+        </div>`;
     }
 
-    changeColor();
 }
 
-function changeColor() {
-    let mainPrice = document.querySelectorAll(".main-price");
-    for (let el of mainPrice) {
-        if (el < 0) {
-            el.classList.add('text-danger');
+function changeColor(arrayOfChanges) {
+    let priceChanges = document.querySelectorAll(".price-changes");
+    console.log(priceChanges[0])
+    for (let i = 0; i < arrayOfChanges.length; i++) {
+        if (arrayOfChanges[i] < 0) {
+            priceChanges[i].classList.add('text-danger');
         }
-        else { el.classList.add('text-success') };
+        else { priceChanges[i].classList.add('text-success') };
     }
 }
 
@@ -84,7 +88,10 @@ async function getDataResult2(searchData) {
             let price = await companyData[0].price;
             arrayOfPrice.push(price);
         }
-        showTheList(searchData, arrayOfImages, arrayOfChanges, arrayOfPrice); // show all results (from server)
+        // show all results (from server)
+        showTheList(searchData, arrayOfImages, arrayOfChanges, arrayOfPrice); 
+        changeColor(arrayOfChanges);
+
     } catch (error) { console.log('error!'); }
 }
 btnSearch.addEventListener('click', function () {
