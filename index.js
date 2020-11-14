@@ -14,8 +14,6 @@ function removeSpiner(loaderParameter) {
     loaderParameter.classList.remove('loader');
     loaderParameter.classList.add('loader-opacity-0');
 }
-// let stockName;
-
 
 function showTheList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) {
     // show all results (from server) on the page
@@ -40,7 +38,6 @@ function showTheList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) {
 
 function changeColor(arrayOfChanges) {
     let priceChanges = document.querySelectorAll(".price-changes");
-    console.log(priceChanges[0])
     for (let i = 0; i < arrayOfChanges.length; i++) {
         if (arrayOfChanges[i] < 0) {
             priceChanges[i].classList.add('text-danger');
@@ -51,21 +48,16 @@ function changeColor(arrayOfChanges) {
 
 // ----------- Get searchData from API. Use function Expresion and arrow function ----
 const getDataResult = async searchText => {
-console.log("getDataResult invoked")
+    // console.log("getDataResult invoked")
     let loader = document.getElementById('loaderID');
-    // stockName = inputSearch.value;
     showSpinner(loader)
     try {
         const res = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${inputSearch.value}&limit=10&exchange=NASDAQ`)
         if (res.ok) {
             const searchData = await res.json();
-            console.log(searchData);
-            //currency: "USD"
-            // exchangeShortName: "NASDAQ"
-            // name: "Atlas Air Worldwide Holdings Inc"
-            // stockExchange: "NasdaqGS"
-            // symbol: "AAWW"
-            // ------ Filtering our input and return the result with matches ------ filter loop threw array and return array based on a condition
+            
+            // ------ Milestone 2_1 -------------
+            // Filtering our input and return the result with matches ------ filter loop threw array and return array based on a condition
             // let matches = searchData.filter(company => {
             //     const regex = new RegExp(`^${searchText}`, 'gi');
             //     return company.name.match(regex) || company.symbol.match(regex);
