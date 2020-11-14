@@ -40,7 +40,6 @@ function showTheList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) {
 
 function changeColor(arrayOfChanges) {
     let priceChanges = document.querySelectorAll(".price-changes");
-    console.log(priceChanges[0])
     for (let i = 0; i < arrayOfChanges.length; i++) {
         if (arrayOfChanges[i] < 0) {
             priceChanges[i].classList.add('text-danger');
@@ -49,29 +48,26 @@ function changeColor(arrayOfChanges) {
     }
 }
 
-// ----------- Get searchData from API. Use function Expresion and arrow function ----
-const getDataResult = async searchText => {
-console.log("getDataResult invoked")
+// ----------- Get usedParamForRepresentingAdditionalInfo from API. Use function Expresion and arrow function ----
+let getDataResult = async searchText => {
+    console.log("getDataResult invoked")
     let loader = document.getElementById('loaderID');
     // stockName = inputSearch.value;
     showSpinner(loader)
     try {
         const res = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${inputSearch.value}&limit=10&exchange=NASDAQ`)
         if (res.ok) {
-            const searchData = await res.json();
-            console.log(searchData);
-            //currency: "USD"
-            // exchangeShortName: "NASDAQ"
-            // name: "Atlas Air Worldwide Holdings Inc"
-            // stockExchange: "NasdaqGS"
-            // symbol: "AAWW"
-            // ------ Filtering our input and return the result with matches ------ filter loop threw array and return array based on a condition
-            // let matches = searchData.filter(company => {
-            //     const regex = new RegExp(`^${searchText}`, 'gi');
-            //     return company.name.match(regex) || company.symbol.match(regex);
-            // });
-            // console.log(matches);
-            await getDataResult2(searchData);
+            const usedParamForRepresentingAdditionalInfo = await res.json();
+            // console.log(usedParamForRepresentingAdditionalInfo);
+            let matches = usedParamForRepresentingAdditionalInfo.filter(company => {
+                const regex = new RegExp(`^${searchText}`, 'gi');
+                return company.name.match(regex) || company.symbol.match(regex);
+            });
+            if (searchText.length === 0) {
+                matches = [];
+            }
+            console.log(matches);
+            await getDataResult2(matches);
             removeSpiner(loader);
         } else {
             console.log("Not Successful");
@@ -81,7 +77,21 @@ console.log("getDataResult invoked")
     }
 }
 
-async function getDataResult2(searchData) {
+// function filterOnInput(usedParamForRepresentingAdditionalInfo) {
+//     //currency: "USD"
+//     // exchangeShortName: "NASDAQ"
+//     // name: "Atlas Air Worldwide Holdings Inc"
+//     // stockExchange: "NasdaqGS"
+//     // symbol: "AAWW"
+//     // ------ Filtering our input and return the result with matches ------ filter loop threw array and return array based on a condition
+//     let matches = usedParamForRepresentingAdditionalInfo.filter(company => {
+//         const regex = new RegExp(`^${searchText}`, 'gi');
+//         return company.name.match(regex) || company.symbol.match(regex);
+//     });
+//     console.log(matches);
+// }
+
+async function getDataResult2(usedParamForRepresentingAdditionalInfo) {
 
     arrayOfImages = [];
     arrayOfChanges = [];
@@ -89,15 +99,16 @@ async function getDataResult2(searchData) {
     arrayOfPrice = [];
 
     try {
-        for (let i = 0; i < searchData.length; i++) {
-            let dataSymbol = await searchData[i].symbol;
+        for (let i = 0; i < usedParamForRepresentingAdditionalInfo.length; i++) {
+            let dataSymbol = await usedParamForRepresentingAdditionalInfo[i].symbol;
             arrayOfSymbols.push(dataSymbol);
         }
 
-        for (let i = 0; i < searchData.length; i++) {
+        for (let i = 0; i < usedParamForRepresentingAdditionalInfo.length; i++) {
             const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/profile/${arrayOfSymbols[i]}`)
             let companyData = await response.json();
             let dataImage = await companyData[0].image;
+            // console.log(dataImage)
             arrayOfImages.push(dataImage);
             let priceChanges = await companyData[0].changes;
             arrayOfChanges.push(priceChanges);
@@ -106,10 +117,21 @@ async function getDataResult2(searchData) {
         }
         // Invoking functions which should be invoked afer we get data. 
         // They shows all results, using data recieved from server.
-        showTheList(searchData, arrayOfImages, arrayOfChanges, arrayOfPrice);
+        showTheList(usedParamForRepresentingAdditionalInfo, arrayOfImages, arrayOfChanges, arrayOfPrice);
         changeColor(arrayOfChanges);
     } catch (error) { console.log('error!'); }
 
 }
 
-btnSearch.addEventListener('click', () => getDataResult(inputSearch.value));
+const debounce = (fn,ms) => {
+    let timeout;
+    return function () {
+        const fnCall = () => { fn.apply(this, arguments)}
+
+        clearTimeout(timeout);
+
+        timeout = setTimeout(fnCall, ms)
+    };
+}
+getDataResult = debounce(getDataResult, 400)
+inputSearch.addEventListener('input', () => getDataResult(inputSearch.value));
