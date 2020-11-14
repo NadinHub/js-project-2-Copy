@@ -1,4 +1,3 @@
-
 /* .border-red {
     border: 1px solid red;
 } */
@@ -11,6 +10,7 @@
     opacity: 1;
     z-index: 2;
 }
+
 .loader2 {
     opacity: 1;
     z-index: 2;
@@ -24,6 +24,35 @@
 }
 
 .img-icon {
-    width: 50px;
-    height: auto;
+    height: 40px;
+}
+
+/* ---------- Marquee ----------- */
+.marquee-text-wrap {
+    overflow: hidden;
+}
+
+.marquee-text-content {
+    width: 10000px;
+}
+
+.marquee-text-text {
+    /* animation-name: move; */
+    /* animation-duration: 20s; */
+    /* animation-timing-function: linear; */
+    /* animation-iteration-count: infinite; */
+    /* float: left; */
+    animation-delay: 0.5s;
+    animation: move 175s linear infinite; 
+
+}
+
+@keyframes move {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
 }
