@@ -133,5 +133,5 @@ const debounce = (fn,ms) => {
         timeout = setTimeout(fnCall, ms)
     };
 }
-getDataResult = debounce(getDataResult, 400)
+getDataResult = debounce(getDataResult, 400);
 inputSearch.addEventListener('input', () => getDataResult(inputSearch.value));
