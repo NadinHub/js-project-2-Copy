@@ -49,6 +49,7 @@ function changeColor(arrayOfChanges) {
 // ----------- Get searchData from API. Use function Expresion and arrow function ----
 const getDataResult = async searchText => {
     // console.log("getDataResult invoked")
+    resultList.innerHTML ="";
     let loader = document.getElementById('loaderID');
     showSpinner(loader)
     try {
@@ -73,6 +74,7 @@ const getDataResult = async searchText => {
     }
 }
 
+// ----- This function adds additional information to the list with companies using another fetch
 async function getDataResult2(searchData) {
 
     arrayOfImages = [];
