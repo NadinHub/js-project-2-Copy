@@ -2,7 +2,6 @@
 const btnSearch = document.getElementById('btnSearchID');
 const inputSearch = document.getElementById('inputID');
 const emptybox = document.getElementById('emptybox');
-const resultList = document.getElementById('result-list');
 
 //{symbol: "ASRVP", name: "Ameriserv Financial Capital Trust I PFD A GTD 8.45", currency: "USD", stockExchange: "NasdaqGM", exchangeShortName: "NASDAQ"}
 
@@ -16,12 +15,19 @@ function removeSpiner(loaderParameter) {
 }
 
 function showTheList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) {
+    const resultList = document.getElementById('result-list');
+    resultList.innerHTML = "";
+    let content = "";
     // show all results (from server) on the page
     for (let i = 0; i < dataParam.length; i++) {
-        let newItem = document.createElement('li');
-        newItem.classList.add('list-group-item', 'pb-4', 'pl-0');
-        resultList.appendChild(newItem);
-        newItem.innerHTML = `<div class="stock-list d-flex">
+
+        // let newItem = document.createElement('li');
+        // newItem.classList.add('list-group-item', 'pb-4', 'pl-0');
+        // resultList.appendChild(newItem);
+        // console.log(newItem);
+
+        content += `<li class="list-group-item pb-4 pl-0">
+        <div class="stock-list d-flex">
         <img class="img-icon px-2" src="${arrayOfImages[i]}">
         </img>
         <div>
@@ -31,9 +37,10 @@ function showTheList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) {
         <small class="text-secondary">- ${dataParam[i].exchangeShortName}</small> <br> 
         <small class="text-secondary">Currency: ${dataParam[i].currency}. StockExchange: ${dataParam[i].stockExchange}.</small>
         </div>
-        </div>`;
-    }
+        </div></li>`;
 
+    }
+    resultList.innerHTML = content;
 }
 
 function changeColor(arrayOfChanges) {
@@ -47,16 +54,16 @@ function changeColor(arrayOfChanges) {
 }
 
 // ----------- Get searchData from API. Use function Expresion and arrow function ----
-const getDataResult = async searchText => {
-    // console.log("getDataResult invoked")
-    resultList.innerHTML ="";
+const getDataResult = async () => {
+    console.log("getDataResult invoked")
     let loader = document.getElementById('loaderID');
     showSpinner(loader)
     try {
         const res = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${inputSearch.value}&limit=10&exchange=NASDAQ`)
         if (res.ok) {
+        
             const searchData = await res.json();
-            
+
             // ------ Milestone 2_1 -------------
             // Filtering our input and return the result with matches ------ filter loop threw array and return array based on a condition
             // let matches = searchData.filter(company => {
@@ -87,7 +94,6 @@ async function getDataResult2(searchData) {
             let dataSymbol = await searchData[i].symbol;
             arrayOfSymbols.push(dataSymbol);
         }
-
         for (let i = 0; i < searchData.length; i++) {
             const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/profile/${arrayOfSymbols[i]}`)
             let companyData = await response.json();
