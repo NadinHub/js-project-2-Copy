@@ -1,23 +1,29 @@
 
-const btnSearch = document.getElementById('btnSearchID');
-const inputSearch = document.getElementById('inputID');
-const emptybox = document.getElementById('emptybox');
-
-//{symbol: "ASRVP", name: "Ameriserv Financial Capital Trust I PFD A GTD 8.45", currency: "USD", stockExchange: "NasdaqGM", exchangeShortName: "NASDAQ"}
-
-function showSpinner(loaderParameter) {
-    loaderParameter.classList.remove('loader-opacity-0');
-    loaderParameter.classList.add('loader');
-}
-function removeSpiner(loaderParameter) {
-    loaderParameter.classList.remove('loader');
-    loaderParameter.classList.add('loader-opacity-0');
-}
-
-function showList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) {
-    const resultList = document.getElementById('result-list');
-    resultList.innerHTML = "";
-    let content = "";
+export class SearchResult {
+    constructor() {
+        this.resultList = document.getElementById('result-list');
+        const btnSearch = document.getElementById('btnSearchID');
+        const inputSearch = document.getElementById('inputID');
+        const emptybox = document.getElementById('emptybox');
+        
+    }
+    
+    //{symbol: "ASRVP", name: "Ameriserv Financial Capital Trust I PFD A GTD 8.45", currency: "USD", stockExchange: "NasdaqGM", exchangeShortName: "NASDAQ"}
+    
+    function showSpinner(loaderParameter) {
+        loaderParameter.classList.remove('loader-opacity-0');
+        loaderParameter.classList.add('loader');
+    }
+    
+    function removeSpiner(loaderParameter) {
+        loaderParameter.classList.remove('loader');
+        loaderParameter.classList.add('loader-opacity-0');
+    }
+    
+    showList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) {
+        // const resultList = document.getElementById('result-list');
+        resultList.innerHTML = "";
+        let content = "";
     // show all results (from server) on the page
     for (let i = 0; i < dataParam.length; i++) {
 
@@ -43,6 +49,7 @@ function showList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) {
     resultList.innerHTML = content;
 }
 
+
 function changeColor(arrayOfChanges) {
     let priceChanges = document.querySelectorAll(".price-changes");
     for (let i = 0; i < arrayOfChanges.length; i++) {
@@ -61,7 +68,7 @@ const getDataResult = async () => {
     try {
         const res = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${inputSearch.value}&limit=10&exchange=NASDAQ`)
         if (res.ok) {
-        
+
             const searchData = await res.json();
 
             // ------ Milestone 2_1 -------------
@@ -106,10 +113,10 @@ async function getDataResult2(searchData) {
         }
         // Invoking functions which should be invoked afer we get data. 
         // They shows all results, using data recieved from server.
-        showList(searchData, arrayOfImages, arrayOfChanges, arrayOfPrice);
+        showTheList(searchData, arrayOfImages, arrayOfChanges, arrayOfPrice);
         changeColor(arrayOfChanges);
     } catch (error) { console.log('error!'); }
 
 }
-
+}
 btnSearch.addEventListener('click', () => getDataResult(inputSearch.value));

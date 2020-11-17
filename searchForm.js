@@ -1,0 +1,1 @@
+btnSearch.addEventListener('click', () => getDataResult(inputSearch.value));
