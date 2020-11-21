@@ -66,11 +66,11 @@ const getDataResult = async () => {
 
             // ------ Milestone 2_1 -------------
             // Filtering our input and return the result with matches ------ filter loop threw array and return array based on a condition
-            // let matches = searchData.filter(company => {
-            //     const regex = new RegExp(`^${searchText}`, 'gi');
-            //     return company.name.match(regex) || company.symbol.match(regex);
-            // });
-            // console.log(matches);
+            let matches = await searchData.filter(company => {
+                const regex = new RegExp(`^${inputSearch.value}`, 'gi');
+                return company.name.match(regex) || company.symbol.match(regex);
+            });
+            console.log(matches);
             await getDataResult2(searchData);
             removeSpiner(loader);
         } else {
@@ -112,4 +112,5 @@ async function getDataResult2(searchData) {
 
 }
 
+inputSearch.addEventListener('keyup', () => getDataResult(inputSearch.value));
 btnSearch.addEventListener('click', () => getDataResult(inputSearch.value));

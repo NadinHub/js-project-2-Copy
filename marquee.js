@@ -1,5 +1,5 @@
 
-class Marquee {
+export default class Marquee {
     constructor(elementClass) {
         this.tickerText = document.querySelector(elementClass); //--- parent element---
     }
@@ -25,8 +25,8 @@ class Marquee {
     }
 }
 
-const myMarquee = new Marquee(".marquee-text-text");
-myMarquee.showMarquee();
+// const myMarquee = new Marquee(".marquee-text-text");
+// myMarquee.showMarquee();
 
 // const marquee = async () => {
 //     // const tickerItem = document.querySelector(".ticker-item");

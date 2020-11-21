@@ -64,21 +64,24 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
-    <script src="index.js"></script>
-    <script src="marquee.js"></script>
-
-    <!-- <script src="searchResult.js"></script> -->
-    <!-- <script src="">
-        // (async function () {
-        //     const myMarquee = new Marquee(".marquee-text-text");
-        //     myMarquee.showMarquee();
-        //     const form = new SearchForm(document.getElementById('inputID'))
-        //     const resultList = new SearchResult(document.getElementById('result-list'));
-        //     form.onSearch((companies) => {
-        //         results.renderResults(companies);
-        //     })
-        // })()
-    </script> -->
+    <!-- <script src="index.js"></script> -->
+    <script type="module" src="api.js"></script>
+    <script type="module" src="marquee.js"></script>
+    <script type="module" src="searchForm.js"></script>
+    <script type="module" src="searchResult.js"></script>
+    <script type="module">
+        import Marquee from '/marquee.js';
+        // import getDataResult from '/api.js';
+        import SearchForm from '/searchForm.js';
+        import SearchResult from '/searchResult.js';
+            const myMarquee = new Marquee(".marquee-text-text");
+            myMarquee.showMarquee();
+            const form = new SearchForm(document.getElementById('inputID'));
+            const results = new SearchResult(document.getElementById('result-list'));
+            form.onSearch((dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) => {
+                results.showList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice);
+            })
+    </script>
 </body>
 
 </html>
