@@ -18,7 +18,7 @@ console.log('js searchResult.js active')
 
 export default class SearchResult {
     constructor(resultList) {
-        this.resultList = this.resultList; // argumetn we pass on index.html
+        this.resultList = resultList; // argumetn we pass on index.html
         // this.resultList = document.getElementById('result-list'); //moved to index.html as an argument
     }
 
@@ -26,6 +26,10 @@ export default class SearchResult {
 
 
     showList(dataParam, arrayOfImages, arrayOfChanges, arrayOfPrice) {
+        console.log(dataParam)
+        // removeSpiner(loader);
+
+
         // const resultList = document.getElementById('result-list');
         this.resultList.innerHTML = "";
         let content = "";
